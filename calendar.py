@@ -60,12 +60,12 @@ def odd_days_in_century_years(fl_year):
 
 def odd_days_in_full_year(fl_year):
     """ Number of odd days in full year """
-    return fl_year % 7
+    return (fl_year % 100) % 7
 
 # +1 day for february month
 def is_current_leapyear(usr_year, usr_month):
     """ If current year is leap then add 1 day of feb if search day is beyond that """
-    if (usr_year // 4 == 0) and usr_month > 2:
+    if (usr_year // 4 == 0) and (usr_month > 2):
         return 1
     else:
         return 0
@@ -81,13 +81,13 @@ def find_day_of_calendar(tareek):
     # First find full year
     full_year = find_fullyear(saal)
 
-    # Add leap years in full year start from century year
+    # Find leap years in full year from the start of the century
     kul_din = find_leapyears_in_fullyear(full_year)
     
     # Add odd days in a century as 1600 brabr = 0, 300 brabr = 1
     kul_din += odd_days_in_century_years(full_year)
     
-    # Add 
+    # Divide full year by 7 and add odd days
     kul_din += odd_days_in_full_year(full_year)
     
     # Add +1 for Feb as it has 29 days for the date after Feb in leap year
@@ -95,7 +95,7 @@ def find_day_of_calendar(tareek):
     
     # Sum of odd days starting from January to one month less than user month
     # Slicing as it starts from 0
-    kul_din += sum(odd_days_in_month[:mahina])
+    kul_din += sum(odd_days_in_month[:mahina-1])
     
     # Add number of days of given month
     kul_din += din_tareek
