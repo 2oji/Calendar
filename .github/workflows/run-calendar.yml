@@ -1,0 +1,37 @@
+# .github/workflows/run-calendar.yml
+name: Daily Calendar run
+
+# When to start the workflow
+on:
+  schedule: # 1️. Scheduled run – daily at 06:00 IST (00:30 UTC)
+    - cron: '30 0 * * *'   # minute hour day month day‑of‑week
+  workflow_dispatch: # enables the “Run workflow” button in the UI - Manual Trigger
+
+jobs:
+  run-calendar:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---- Checkout the repository -------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---- Set up Python -----------------------------------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'   # or any version you need
+
+      # ---- Run the script and capture output ---------------------------------------
+      - name: Execute calendar.py
+        run: |
+          python calendar.py > output.txt
+
+
+      # ---- Upload the log as an artifact -------------------------------------------
+      - name: Upload output artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calendar-output
+          path: output.txt
+          retention-days: 1   # keep logs for a month (adjust as needed)
