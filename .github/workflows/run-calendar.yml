@@ -34,4 +34,4 @@ jobs:
         with:
           name: calendar-output
           path: output.txt
-          retention-days: 1   # keep logs for a month (adjust as needed)
+          retention-days: 1   # keep the artifact for 7 days (max 90)
